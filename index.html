@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista della Spesa</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="icon" type="image/png" href="/static/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h2 {
+            color: #007bff;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 8px;
+            margin: 5px 0;
+            transition: transform 0.2s;
+            cursor: grab;
+        }
+        li:hover {
+            transform: scale(1.02);
+        }
+        .dragging {
+            background-color: #f0f0f0;
+            opacity: 0.8;
+        }
+        .checked {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .remove-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .remove-btn:hover {
+            background-color: darkred;
+        }
+        #clear-list {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #clear-list:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shopping List</h2>
+    <input type="text" id="itemInput" placeholder="Aggiungi un elemento">
+    <button onclick="addItem()">Add</button>
+    <button onclick="clearList()" id="clear-list">Delete All</button>
+    <button onclick="sendList()">Print</button>
+    <ul id="shoppingList"></ul>
+
+    <!-- Libreria per il Drag & Drop -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+
+    <script>
+        const SERVER_URL = "http://127.0.0.1:8083"; // IP of raspberry pi
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadList();
+            document.getElementById("itemInput").addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    addItem();
+                }
+            });
+
+            // Attiva il Drag & Drop con SortableJS 
+            new Sortable(document.getElementById("shoppingList"), {
+                animation: 150,
+                ghostClass: "dragging",
+                onEnd: saveList 
+            });
+        });
+
+        function addItem() {
+            let input = document.getElementById("itemInput");
+            let itemText = input.value.trim();
+            if (itemText === "") return;
+
+            let li = document.createElement("li");
+            li.innerHTML = `<input type='checkbox' onclick='toggleItem(this)'> <span>${itemText}</span> <button class='remove-btn' onclick='removeItem(this)'>❌</button>`;
+            document.getElementById("shoppingList").appendChild(li);
+            saveList();
+            input.value = "";
+        }
+
+        function removeItem(button) {
+            button.parentElement.remove();
+            saveList();
+        }
+
+        function toggleItem(checkbox) {
+            let span = checkbox.nextElementSibling;
+            span.classList.toggle("checked", checkbox.checked);
+            saveList();
+        }
+
+        function saveList() {
+            let items = [];
+            document.querySelectorAll("#shoppingList li").forEach(li => {
+                let checkbox = li.querySelector("input[type='checkbox']");
+                items.push({ text: li.children[1].textContent, checked: checkbox.checked });
+            });
+
+            fetch(`${SERVER_URL}/save_list`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ items }) 
+            }).catch(error => console.error("Error:", error));
+        }
+
+        function loadList() {
+            fetch(`${SERVER_URL}/get_list`)
+            .then(response => response.json())
+            .then(items => {
+                let list = document.getElementById("shoppingList");
+                list.innerHTML = "";
+                items.forEach(item => {
+                    let li = document.createElement("li");
+                    li.innerHTML = `<input type='checkbox' ${item.checked ? "checked" : ""} onclick='toggleItem(this)'> <span class="${item.checked ? "checked" : ""}">${item.text}</span> <button class='remove-btn' onclick='removeItem(this)'>❌</button>`;
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function clearList() {
+            if (confirm("Sei sicuro di voler eliminare tutta la lista?")) {
+                document.getElementById("shoppingList").innerHTML = "";
+                fetch(`${SERVER_URL}/save_list`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ items: [] })
+                }).catch(error => console.error("Error:", error));
+            }
+        }
+
+        function sendList() {
+            fetch(`${SERVER_URL}/get_list`)
+            .then(response => response.json())
+            .then(items => {
+                if (items.length === 0) {
+                    alert("Empty List!");
+                    return;
+                }
+
+                let listText = items.map(item => `• ${item.text}`).join("\n");
+
+                console.log("List to send:", listText);
+                
+                fetch(`${SERVER_URL}/print`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ list: listText })
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                })
+                .catch(error => {
+                    alert("Error sending list.");
+                    console.error(error);
+                });
+            })
+            .catch(error => console.error("Errore fetching list:", error));
+        }
+    </script>
+</body>
+</html>
