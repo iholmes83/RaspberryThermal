@@ -10,7 +10,54 @@ The project is simple:
 We start from the bullet 2 (see the link above for the setup of the thermal)
 
 We need 2 services 
-a) The printer manager that opens a socket and wait for a connection 
-b) The service who manage the list on the webpage and send to the first service
+a) The printer manager that opens a socket and wait for a connection (file printerManager.py)
+b) The service who manage the list on the webpage and send to the first service (file server.py)
 
-...and the webpage
+...and the webpage (index.html)
+
+Then we setup the two service to start at the boot
+
+sudo nano /etc/systemd/system/printerManager.service
+
+[Unit]
+Description=Server HTTP Flask per Lista della Spesa
+After=network.target
+
+[Service]
+User=hoobs
+WorkingDirectory=/home/pi/printerManager
+ExecStart=/usr/bin/python3 /home/pi/printerManager/printerManager.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+and then
+
+udo systemctl daemon-reload
+sudo systemctl restart printerManager.service
+sudo systemctl status printerManager.service
+
+
+sudo nano /etc/systemd/system/httpServer.service
+
+[Unit]
+Description=Server HTTP Flask per Lista della Spesa
+After=network.target
+
+[Service]
+User=hoobs
+WorkingDirectory=/home/pi/httpServer
+ExecStart=/usr/bin/python3 /home/pi/printerManager/server.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+and then
+
+udo systemctl daemon-reload
+sudo systemctl restart httpServer.service
+sudo systemctl status httpServer.service
