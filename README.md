@@ -17,8 +17,10 @@ b) The service who manage the list on the webpage and send to the first service 
 
 Then we setup the two service to start at the boot
 
+# comand line
 sudo nano /etc/systemd/system/printerManager.service
 
+# content of file
 [Unit]
 Description=Server HTTP Flask per Lista della Spesa
 After=network.target
@@ -35,13 +37,17 @@ WantedBy=multi-user.target
 
 and then
 
+# comand line
 udo systemctl daemon-reload
 sudo systemctl restart printerManager.service
 sudo systemctl status printerManager.service
 
+For the other service we do de same
 
+# comand line
 sudo nano /etc/systemd/system/httpServer.service
 
+# content of file
 [Unit]
 Description=Server HTTP Flask per Lista della Spesa
 After=network.target
@@ -58,6 +64,7 @@ WantedBy=multi-user.target
 
 and then
 
-udo systemctl daemon-reload
+# comand line
+sudo systemctl daemon-reload
 sudo systemctl restart httpServer.service
 sudo systemctl status httpServer.service
