@@ -15,6 +15,7 @@ b) The service who manage the list on the webpage and send to the first service 
 
 ...and the webpage (index.html)
 
+![ShoppingList](https://github.com/user-attachments/assets/e1ef263b-2381-4b47-9d55-854a09bfe846)
 
 
 Then we setup the two service to start at the boot
