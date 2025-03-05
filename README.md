@@ -17,17 +17,17 @@ b) The service who manage the list on the webpage and send to the first service 
 
 Then we setup the two service to start at the boot
 
-# Service 1
+# Service 1 - Printer 
 sudo nano /etc/systemd/system/printerManager.service
 
 content of file
 
 [Unit]
-Description=Server HTTP Flask per Lista della Spesa
+Description=Thermal printer manager
 After=network.target
 
 [Service]
-User=hoobs
+User=pi
 WorkingDirectory=/home/pi/printerManager
 ExecStart=/usr/bin/python3 /home/pi/printerManager/printerManager.py
 Restart=always
@@ -44,16 +44,16 @@ sudo systemctl status printerManager.service
 
 For the other service we do de same
 
-# Service 2
+# Service 2 - Server
 sudo nano /etc/systemd/system/httpServer.service
 
 content of file
 [Unit]
-Description=Server HTTP Flask per Lista della Spesa
+Description=Server HTTP for Shopping List
 After=network.target
 
 [Service]
-User=hoobs
+User=pi
 WorkingDirectory=/home/pi/httpServer
 ExecStart=/usr/bin/python3 /home/pi/printerManager/server.py
 Restart=always
@@ -68,3 +68,7 @@ comand line
 sudo systemctl daemon-reload
 sudo systemctl restart httpServer.service
 sudo systemctl status httpServer.service
+
+# Infos
+
+
