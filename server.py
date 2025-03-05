@@ -50,7 +50,7 @@ def favicon():
     return send_from_directory('static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # IP e Porta del ServerRecieve
-PRINT_SERVER_URL = "http://127.0.0.1:5005/print"
+PRINT_SERVER_URL = "http://127.0.0.1:5005/print" #You can set here a different address if the webserver and the printer are in separate places
 
 @app.route("/print", methods=["POST"])
 def print_list():
