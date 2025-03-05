@@ -31,8 +31,11 @@ content of file
 >
 >[Service]
 >User=pi
+>
 >WorkingDirectory=/home/pi/printerManager
+>
 >ExecStart=/usr/bin/python3 /home/pi/printerManager/printerManager.py
+>
 >Restart=always
 >
 >[Install]
@@ -42,7 +45,9 @@ content of file
 and then
 
 >sudo systemctl daemon-reload
+>
 >sudo systemctl restart printerManager.service
+>
 >sudo systemctl status printerManager.service
 
 For the other service we do de same
@@ -57,8 +62,11 @@ content of file
 >
 >[Service]
 >User=pi
+>
 >WorkingDirectory=/home/pi/httpServer
+>
 >ExecStart=/usr/bin/python3 /home/pi/printerManager/server.py
+>
 >Restart=always
 >
 >[Install]
@@ -69,11 +77,15 @@ and then
 
 comand line
 >sudo systemctl daemon-reload
+>
 >sudo systemctl restart httpServer.service
+>
 >sudo systemctl status httpServer.service
 
-[!NOTE] Infos
-Webpage: you can drag the elements to order the list, mark or unmark them. "memory" file save in the same directory of the index.html
+You can now test connexcting to the desired webpage address and trying to print something.
+
+>[!NOTE] Infos
+>Webpage: you can drag the elements to order the list, mark or unmark them. "memory" file save in the same directory of the index.html
 
 
 
