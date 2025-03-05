@@ -11,9 +11,11 @@ We start from the bullet 2 (see the link above for the setup of the thermal)
 
 We need 2 services 
 a) The printer manager that opens a socket and wait for a connection (file printerManager.py)
-b) The service who manage the list on the webpage and send to the first service (file server.py)
+b) The service who manage the list on the webpage and send to the first service (file server.py) (or setup it with a standar Apache, ngnix, .... if already you have one)
 
 ...and the webpage (index.html)
+
+
 
 Then we setup the two service to start at the boot
 
@@ -70,5 +72,7 @@ sudo systemctl restart httpServer.service
 sudo systemctl status httpServer.service
 
 # Infos
+Webpage: you can drag the elements to order the list, mark or unmark them. "memory" file save in the same directory of the index.html
+
 
 
