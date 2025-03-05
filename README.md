@@ -1,7 +1,7 @@
 # RaspberryThermal
 Using raspberry to print shopping list or similar to a thermal printer
 
-The idea came from the top of my head just after I connected the thermal printer to my raspberry following these instructions (https://learn.adafruit.com/networked-thermal-printer-using-cups-and-raspberry-pi?view=all) and after a tried this project https://github.com/LukePrior/Raspberry-Pi-Thermal-Printer
+The idea came from the top of my head just after I connected the thermal printer to my raspberry following these instructions (https://learn.adafruit.com/networked-thermal-printer-using-cups-and-raspberry-pi?view=all) and after I tried this project https://github.com/LukePrior/Raspberry-Pi-Thermal-Printer
 
 The project is simple:
 1) Raspberry Pi + Thermal printer
