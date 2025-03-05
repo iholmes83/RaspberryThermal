@@ -25,18 +25,18 @@ sudo nano /etc/systemd/system/printerManager.service
 
 content of file
 
-[Unit]
-Description=Thermal printer manager
-After=network.target
-
-[Service]
-User=pi
-WorkingDirectory=/home/pi/printerManager
-ExecStart=/usr/bin/python3 /home/pi/printerManager/printerManager.py
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
+>[Unit]
+>Description=Thermal printer manager
+>After=network.target
+>
+>[Service]
+>User=pi
+>WorkingDirectory=/home/pi/printerManager
+>ExecStart=/usr/bin/python3 /home/pi/printerManager/printerManager.py
+>Restart=always
+>
+>[Install]
+>WantedBy=multi-user.target
 
 
 and then
@@ -51,18 +51,18 @@ For the other service we do de same
 sudo nano /etc/systemd/system/httpServer.service
 
 content of file
-[Unit]
-Description=Server HTTP for Shopping List
-After=network.target
-
-[Service]
-User=pi
-WorkingDirectory=/home/pi/httpServer
-ExecStart=/usr/bin/python3 /home/pi/printerManager/server.py
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
+>[Unit]
+>Description=Server HTTP for Shopping List
+>After=network.target
+>
+>[Service]
+>User=pi
+>WorkingDirectory=/home/pi/httpServer
+>ExecStart=/usr/bin/python3 /home/pi/printerManager/server.py
+>Restart=always
+>
+>[Install]
+>WantedBy=multi-user.target
 
 
 and then
@@ -72,8 +72,8 @@ sudo systemctl daemon-reload
 sudo systemctl restart httpServer.service
 sudo systemctl status httpServer.service
 
-# Infos
-Webpage: you can drag the elements to order the list, mark or unmark them. "memory" file save in the same directory of the index.html
+> [!NOTE] Infos
+> Webpage: you can drag the elements to order the list, mark or unmark them. "memory" file save in the same directory of the index.html
 
 
 
