@@ -90,4 +90,5 @@ You can now test connexcting to the desired webpage address and trying to print 
 >"memory" file (named shopping_list.json) is saved in the same directory of the index.html
 
 
+![IMG_0245](https://github.com/user-attachments/assets/79cb0c80-d0d7-430f-9beb-eb8762f56c54)
 
