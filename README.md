@@ -84,8 +84,10 @@ comand line
 
 You can now test connexcting to the desired webpage address and trying to print something.
 
->[!NOTE] Infos
->Webpage: you can drag the elements to order the list (https://github.com/SortableJS/Sortable), mark or unmark them. "memory" file save in the same directory of the index.html
+>[!NOTE]
+>
+>Webpage: you can drag the elements to order the list (https://github.com/SortableJS/Sortable), mark or unmark them.
+>"memory" file (named save in the same directory of the index.html
 
 
 
