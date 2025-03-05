@@ -21,7 +21,7 @@ b) The service who manage the list on the webpage and send to the first service 
 Then we setup the two service to start at the boot
 
 # Service 1 - Printer 
-sudo nano /etc/systemd/system/printerManager.service
+>sudo nano /etc/systemd/system/printerManager.service
 
 content of file
 
@@ -41,14 +41,14 @@ content of file
 
 and then
 
-sudo systemctl daemon-reload
-sudo systemctl restart printerManager.service
-sudo systemctl status printerManager.service
+>sudo systemctl daemon-reload
+>sudo systemctl restart printerManager.service
+>sudo systemctl status printerManager.service
 
 For the other service we do de same
 
 # Service 2 - Server
-sudo nano /etc/systemd/system/httpServer.service
+>sudo nano /etc/systemd/system/httpServer.service
 
 content of file
 >[Unit]
@@ -68,12 +68,12 @@ content of file
 and then
 
 comand line
-sudo systemctl daemon-reload
-sudo systemctl restart httpServer.service
-sudo systemctl status httpServer.service
+>sudo systemctl daemon-reload
+>sudo systemctl restart httpServer.service
+>sudo systemctl status httpServer.service
 
-> [!NOTE] Infos
-> Webpage: you can drag the elements to order the list, mark or unmark them. "memory" file save in the same directory of the index.html
+[!NOTE] Infos
+Webpage: you can drag the elements to order the list, mark or unmark them. "memory" file save in the same directory of the index.html
 
 
 
