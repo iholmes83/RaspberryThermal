@@ -91,7 +91,7 @@
 </head>
 <body>
     <h2>Shopping List</h2>
-    <input type="text" id="itemInput" placeholder="Aggiungi un elemento">
+    <input type="text" id="itemInput" placeholder="Add an element">
     <button onclick="addItem()">Add</button>
     <button onclick="clearList()" id="clear-list">Delete All</button>
     <button onclick="sendList()">Print</button>
@@ -172,7 +172,7 @@
         }
 
         function clearList() {
-            if (confirm("Sei sicuro di voler eliminare tutta la lista?")) {
+            if (confirm("Clear all list?")) {
                 document.getElementById("shoppingList").innerHTML = "";
                 fetch(`${SERVER_URL}/save_list`, {
                     method: "POST",
@@ -209,7 +209,7 @@
                     console.error(error);
                 });
             })
-            .catch(error => console.error("Errore fetching list:", error));
+            .catch(error => console.error("Error fetching list:", error));
         }
     </script>
 </body>
